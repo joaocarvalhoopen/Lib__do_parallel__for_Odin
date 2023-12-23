@@ -2,7 +2,7 @@
 A library to process one or more arrays and other code in parallel in a easy way. 
 
 ## Description
-This library implements a parallelization of a FOR cycle, for array processing for multiple cores / threads ex: 4, 8, 16, 32, 64, 128, 256. The parallelization is done by the thread pool, that can be re-used across different calls to do_parallel( ). Code to be executed in the parallel FOR cycle is passed as a procedure that is executed by each thread in the thread pool with different indices. The procedure has access to the internal structure with the slices / arrays / dynamic arrays, it has to make a cast at the beginning. Inside it's code it parallel block can execute any type of code or function, slices index, conditions with if's and for cycles.
+This library implements a parallelization of a FOR cycle, for array processing for multiple cores / threads ex: 4, 8, 16, 32, 64, 128, 256, for the Odin programming language. The parallelization is done by the thread pool, that can be re-used across different calls to do_parallel( ). Code to be executed in the parallel FOR cycle is passed as a procedure that is executed by each thread in the thread pool with different indices. The procedure has access to the internal structure with the slices / arrays / dynamic arrays, it has to make a cast at the beginning. Inside it's code it parallel block can execute any type of code or function, slices index, conditions with if's and for cycles.
 
 ```
 
@@ -50,6 +50,12 @@ but with the values changed by the operation.
 
 ``` odin
 
+TData_1 :: struct {
+    a : []f32
+    b : []f32
+    c : []f32
+} 
+
 // Number of cores in the CPU.
 nthreads = 8
 
@@ -86,6 +92,25 @@ do_parallel( & pool,
              nthreads ) 
 
 ```
+
+## This is inspired on the Julia construct "@threads for"
+I wanted to make in the Odin programming language, the simplest interface and the closest interface to the Julia programming language "@threads for", in Julia you can do the following.
+
+You can fill in the environment variable JULIA_NUM_THREADS with the number of threads you want to use, or number of cores. 
+
+``` bash
+export JULIA_NUM_THREADS=4
+```
+
+Then in your program you do the this to parallelize the loop into the number of threads, dividing the load. Threads.threadid() has the number of the current thread.
+
+``` julia
+Threads.@threads for i = 1:10
+           a[i] = Threads.threadid()
+       end
+```
+
+This repository was my attempt to make a similar thing, that was simple ans easy to use for the Odin programming language.
 
 ## License
 MIT Open Source License
