@@ -77,8 +77,8 @@ work_func_a1 :: proc ( task : thread.Task ) {
         j := f32( i )
         a[ i ] = 1 + j
         c[ i ] = a[ i ] * sin( x )
-        for i in 0 ..< 10 {}
-            b[ i ] = c [ i ] * j
+        for k in 0 ..< 10 {}
+            b[ i ] = b [ k ] * j
         }
         // ...end parallel computation.
 
